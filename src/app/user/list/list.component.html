@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row">
+    <div style="display: flex; margin-bottom: 20px; margin-top: 20px; width: 100%;">
+      <input class="form-control" type="text" placeholder="Search" name="search" [(ngModel)]="filterf">
+      <button class="btn btn-primary" style="margin-left: 20px; float: right;" (click)="addEmployee()">Add User </button>
+      <button class="btn btn-danger" style="margin-left: 20px; float: right;" (click)="logout()">Logout </button>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th (click)="sort('employee_name')">Name
+             <span class="glyphicon sort-icon" *ngIf="key =='employee_name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <th (click)="sort('employee_salary')">Salary
+            <span class="glyphicon sort-icon" *ngIf="key =='employee_salary'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <th (click)="sort('employee_age')">Age
+            <span class="glyphicon sort-icon" *ngIf="key =='employee_age'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of dataSource | orderBy: key : reverse |  filter:filterf | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
+          <td>{{data.id}}</td>
+          <td>{{data.employee_name}}</td>
+          <td>{{data.employee_salary}}</td>
+          <td>{{data.employee_age}}</td>
+          <td>
+            <i class="fa fa-trash" (click)="deleteEmployee(data.id)"></i>
+          </td>
+          <td>
+            <i class="fa fa-pencil" (click)="editEmployee(data.id)"></i>
+          </td>
+          <td>
+            <i class="fa fa-address-card" (click)="viewEmployee(data.id)"></i>
+          </td>
+        </tr>
+      </tbody>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </table>
+  </div>
+</div>
+
+<app-view [emp]="selectedEmp"></app-view>
